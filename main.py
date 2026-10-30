@@ -10,6 +10,8 @@ from precious_metals import get_gold_price, get_silver_price
 
 # Initialize FastMCP server
 mcp = FastMCP(
+    from fastapi import FastAPI
+from contextlib import asynccontextmanager
     "egx_stock_tools",
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 10000))
