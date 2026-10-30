@@ -2,21 +2,21 @@ from typing import Any
 import sys
 import os
 from mcp.server.fastmcp import FastMCP
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from tools import getStockPriceEGX, getStockDataEGX
 from egx import validate_symbol, format_indicators
 from precious_metals import get_gold_price, get_silver_price
 
 # Initialize FastMCP server
 mcp = FastMCP(
-    from fastapi import FastAPI
-from contextlib import asynccontextmanager
     "egx_stock_tools",
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 10000))
 )
-
 @mcp.tool()
 def stock_price_egx(symbol: str) -> str:
     """Get the current price of a stock in EGX."""
