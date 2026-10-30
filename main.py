@@ -9,7 +9,11 @@ from egx import validate_symbol, format_indicators
 from precious_metals import get_gold_price, get_silver_price
 
 # Initialize FastMCP server
-mcp = FastMCP("egx_stock_tools")
+mcp = FastMCP(
+    "egx_stock_tools",
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 10000))
+)
 
 @mcp.tool()
 def stock_price_egx(symbol: str) -> str:
@@ -52,8 +56,7 @@ def silver_price() -> str:
         return f"Error getting silver price: {str(e)}"
 
 def main() -> None:
-    print("Starting EGX Stock Tools MCP Server...")
-    mcp.run(transport="stdio")
+    mcp.run(transport="streamable-http")
 
 if __name__ == "__main__":
     main()
