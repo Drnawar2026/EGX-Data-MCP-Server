@@ -56,7 +56,14 @@ def silver_price() -> str:
         return get_silver_price()
     except Exception as e:
         return f"Error getting silver price: {str(e)}"
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with mcp.session_manager.run():
+        yield
 
+
+app = FastAPI(lifespan=lifespan)
+app.mount("/", mcp.streamable_http_app())
 def main() -> None:
     mcp.run(transport="streamable-http")
 
